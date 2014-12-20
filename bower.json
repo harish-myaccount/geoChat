@@ -1,0 +1,10 @@
+{
+  "name": "geo-chat",
+  "version": "0.0.1",
+  "dependencies": {
+    "sockjs": "latest",
+    "stomp-websocket": "latest",
+    "angular": "latest",
+    "lodash": "latest"
+  }
+}
