@@ -1,5 +1,4 @@
-(function(angular, SockJS, Stomp, _, undefined) {
-  angular.module("chatApp.services").service("ChatService", function($q, $timeout) {
+app.service("ChatService", function($q, $timeout) {
     
     var service = {}, listener = $q.defer(), socket = {
       client: null,
@@ -59,4 +58,43 @@
     initialize();
     return service;
   });
-})(angular, SockJS, Stomp, _);
+  
+  app.factory("GeolocationService", ['$q', '$window', '$rootScope', function ($q, $window, $rootScope) {
+	    return function () {
+	        var deferred = $q.defer();
+
+	        if (!$window.navigator) {
+	            $rootScope.$apply(function() {
+	                deferred.reject(new Error("Geolocation is not supported"));
+	            });
+	        } else {
+	            $window.navigator.geolocation.getCurrentPosition(function (position) {
+	                $rootScope.$apply(function() {
+	                    deferred.resolve(position);
+	                });
+	            }, function (error) {
+	                $rootScope.$apply(function() {
+	                    deferred.reject(error);
+	                });
+	            });
+	        }
+
+	        return deferred.promise;
+	    }
+	}]);
+  
+  app.service("UserService",['$q','$http',function($q,$http){
+	  this.sendLocation = function(position,nick,tag){
+		  var deferred = $q.defer();
+		  user = {nickName:nick,tagLine:tag,coOrd:position.coords};
+		     $http.post('/users/nearby',user)
+		       .success(function(data) { 
+		          deferred.resolve(data);
+		       }).error(function(msg, code) {
+		          deferred.reject(msg);
+		          console.error(msg, code);
+		       });
+		     return deferred.promise;
+	  };
+  }]);
+  
