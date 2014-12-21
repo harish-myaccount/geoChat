@@ -6,6 +6,8 @@
     "stomp-websocket": "latest",
     "angular": "latest",
     "angular-route":"latest",
-    "lodash": "latest"
+    "lodash": "latest",
+    "bootstrap-css-only":"latest"
   }
 }
+

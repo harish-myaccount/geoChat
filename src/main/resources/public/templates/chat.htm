@@ -1,7 +1,7 @@
 <div class="container">
 		<form ng-submit="addMessage()" name="messageForm">
 			<input type="text" placeholder="Compose a new message..."
-				ng-model="message" />
+				ng-model="message" class='message'/>
 			<div class="info">
 				<span class="count" ng-bind="max - message.length"
 					ng-class="{danger: message.length > max}">140</span>

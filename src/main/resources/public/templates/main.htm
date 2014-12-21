@@ -1,11 +1,29 @@
 
-<div ng-show="position">
+<div ng-hide="true">
 	<p>{{ position | json }}</p>
 </div>
 <div>
 	<p>{{ message }}</p>
 </div>
 
+<div ng-hide="position" class="input-group input-group-lg" style="margin:auto;margin-bottom: 1em;margin-top: 10em;width:35%;">
+  <span class="input-group-addon">nick name</span>
+  <input width='150px' type="text"
+					class=' form-control' ng-model='nickname' placeholder='nick name'></input>					
+</div>
+<div ng-hide="position" class="input-group input-group-lg"  style="margin:auto;width:75%">
+  <span class="input-group-addon">tag line</span>
+  
+ <input type="text"
+					class=' form-control' ng-model='tagline' placeholder='how are you feeling?'></input></div>
 <div class="wrapper">
-<button class='start' ng-click="start()" ng-hide="position">Start</button>
+	<button class='start' ng-click="start()" ng-hide="position" style="margin-top: 2em;">Start</button>
+</div>
+<p ng-show='users' class="text-center">Nearby Online Users</p>
+<div style="margin: auto;">
+	<div class="thumbnail" ng-repeat="user in users">
+		<img ng-src="{{ user.url }}" onClick="sendRequest(user.content.ipRoute)">
+		  <h3>{{user.content.nickName}}</h3>
+          {{user.content.tagLine}}
+</div>
 </div>

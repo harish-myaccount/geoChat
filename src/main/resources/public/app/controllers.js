@@ -23,15 +23,28 @@ app.controller('MainCtrl', [ '$scope', 'GeolocationService', 'UserService',
 			$scope.start = function() {
 				geolocation().then(function(position) {
 					$scope.position = position;
-					var promise = userservice.sendLocation(position);
-					promise.then(function(response) {
-						$scope.users = response.users
-					}, function(error) {
-						$scope.message = error
+					urls=[];
+					userservice.getPicURL($scope.nickname).then(function(hits){
+						if(hits)
+				        angular.forEach(hits, function(hit, i){urls.push(hit.webformatURL); });
+
+						var promise = userservice.sendLocation(position,$scope.nickname,$scope.tagline);
+						promise.then(function(response) {
+							$scope.users=[];
+							angular.forEach(response,function(user,i){
+								user.url=urls[i];
+								$scope.users.push(user)});
+						}, function(error) {
+							$scope.message = error
+						});
 					});
 				}, function(reason) {
 					$scope.message = "Could not be determined."
 				});
+			};
+			
+			$scope.sendRequest = function(id){
+				
 			};
 
 		} ]);
