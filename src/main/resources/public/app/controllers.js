@@ -1,4 +1,4 @@
-app.controller("ChatCtrl", [ 'ChatService', function($scope, ChatService) {
+app.controller("ChatCtrl", ['$scope', 'ChatService', function($scope, ChatService) {
 	$scope.messages = [];
 	$scope.message = "";
 	$scope.max = 140;
@@ -13,8 +13,8 @@ app.controller("ChatCtrl", [ 'ChatService', function($scope, ChatService) {
 	});
 } ]);
 
-app.controller('MainCtrl', [ '$scope', 'GeolocationService', 'UserService',
-		function($scope, geolocation, userservice) {
+app.controller('MainCtrl', [ '$scope','$location', 'GeolocationService', 'UserService',
+		function($scope,$location, geolocation, userservice) {
 			$scope.position = null;
 			$scope.message = "";
 
@@ -26,7 +26,7 @@ app.controller('MainCtrl', [ '$scope', 'GeolocationService', 'UserService',
 					urls=[];
 					userservice.getPicURL($scope.nickname).then(function(hits){
 						if(hits)
-				        angular.forEach(hits, function(hit, i){urls.push(hit.webformatURL); });
+				        angular.forEach(hits, function(hit, i){urls.push(hit.previewURL); });
 
 						var promise = userservice.sendLocation(position,$scope.nickname,$scope.tagline);
 						promise.then(function(response) {
@@ -44,7 +44,7 @@ app.controller('MainCtrl', [ '$scope', 'GeolocationService', 'UserService',
 			};
 			
 			$scope.sendRequest = function(id){
-				
+			    $location.path('chat');	
 			};
 
 		} ]);

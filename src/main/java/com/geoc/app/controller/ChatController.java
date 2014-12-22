@@ -18,7 +18,7 @@ public class ChatController {
 
   private Logger logger = LoggerFactory.getLogger(getClass());
 
-  @MessageMapping("/chat")
+  @MessageMapping("/send")
   @SendTo("/topic/message")
   public OutputMessage sendMessage(Message message) {
     logger.info("Message sent");

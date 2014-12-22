@@ -8,7 +8,7 @@ app.service("ChatService", function($q, $timeout) {
     service.RECONNECT_TIMEOUT = 30000;
     service.SOCKET_URL = "/chat";
     service.CHAT_TOPIC = "/topic/message";
-    service.CHAT_BROKER = "/geoc/chat";
+    service.CHAT_BROKER = "/geoc/send";
     
     service.receive = function() {
       return listener.promise;
