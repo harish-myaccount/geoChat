@@ -95,9 +95,9 @@ app.service("ChatService", function($q, $timeout) {
 		  });
 		 return deferred.promise; 
 	  }
-	  this.sendLocation = function(position,nick,tag){
+	  this.sendLocation = function(position,nick,tag,url){
 		  var deferred = $q.defer();
-		  user = {nickName:nick,tagLine:tag,coOrd:position.coords};
+		  user = {nickName:nick,tagLine:tag,coOrd:position.coords,image:url};
 		     $http.post('/users/nearby',user)
 		       .success(function(data) { 
 		          deferred.resolve(data.content);

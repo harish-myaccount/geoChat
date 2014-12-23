@@ -17,22 +17,19 @@ app.controller('MainCtrl', [ '$scope','$location', 'GeolocationService', 'UserSe
 		function($scope,$location, geolocation, userservice) {
 			$scope.position = null;
 			$scope.message = "";
-
 			$scope.users = null;
 
 			$scope.start = function() {
 				geolocation().then(function(position) {
 					$scope.position = position;
 					urls=[];
+					urls[false]='http://goo.gl/J7SKmj';
+					urls[true]='http://goo.gl/SvjslJ';
 					userservice.getPicURL($scope.nickname).then(function(hits){
-						if(hits)
-				        angular.forEach(hits, function(hit, i){urls.push(hit.previewURL); });
-
-						var promise = userservice.sendLocation(position,$scope.nickname,$scope.tagline);
+						var promise = userservice.sendLocation(position,$scope.nickname,$scope.tagline,hits.length>0?hits[0].previewURL:urls[Math.random()<.5]);
 						promise.then(function(response) {
 							$scope.users=[];
 							angular.forEach(response,function(user,i){
-								user.url=urls[i];
 								$scope.users.push(user)});
 						}, function(error) {
 							$scope.message = error
@@ -43,7 +40,8 @@ app.controller('MainCtrl', [ '$scope','$location', 'GeolocationService', 'UserSe
 				});
 			};
 			
-			$scope.sendRequest = function(id){
+			$scope.sendRequest = function(user){
+				console.log(user);
 			    $location.path('chat');	
 			};
 

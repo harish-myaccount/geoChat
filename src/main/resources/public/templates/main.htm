@@ -6,24 +6,37 @@
 	<p>{{ message }}</p>
 </div>
 
-<div ng-hide="position" class="input-group input-group-lg" style="margin:auto;margin-bottom: 1em;margin-top: 10em;width:35%;">
-  <span class="input-group-addon">nick name</span>
-  <input width='150px' type="text"
-					class=' form-control' ng-model='nickname' placeholder='nick name'></input>					
+<div ng-hide="position" class="input-group input-group-lg"
+	style="margin: auto; margin-bottom: 1em; margin-top: 10em; width: 35%;">
+	<span class="input-group-addon">nick name</span> <input width='150px'
+		type="text" class=' form-control' ng-model='nickname'
+		placeholder='nick name'></input>
 </div>
-<div ng-hide="position" class="input-group input-group-lg"  style="margin:auto;width:75%">
-  <span class="input-group-addon">tag line</span>
-  
- <input type="text"
-					class=' form-control' ng-model='tagline' placeholder='how are you feeling?'></input></div>
+<div ng-hide="position" class="input-group input-group-lg"
+	style="margin: auto; width: 75%">
+	<span class="input-group-addon">Ask</span> <input type="text"
+		class=' form-control' ng-model='tagline'
+		placeholder='security question'></input>
+</div>
 <div class="wrapper">
-	<button class='start' ng-click="start()" ng-hide="position" style="margin-top: 2em;">Start</button>
+	<button class='start' ng-click="start()" ng-hide="position"
+		style="margin-top: 2em;">Start</button>
 </div>
 <p ng-show='users' class="text-center">Nearby Online Users</p>
 <div style="margin-left: 175px;">
-	<div class="thumbnail" ng-repeat="user in users" style="width:500px;display:table">
-		<img ng-src="{{ user.url }}" ng-click="sendRequest(user.content.ipRoute)">
-		  <h3>{{user.content.nickName}}</h3>
-          {{user.content.tagLine}}
-</div>
+	<div class="thumbnail" ng-repeat="user in users"
+		style="width: 500px; display: table">
+		<h3>{{user.content.nickName}}</h3>
+		{{user.content.tagLine}}
+		<div style="width: 400px"><img class='' ng-src="{{ user.content.image }}"
+			style="width:200px;padding: 5px;float: left;">
+		<form class="form-inline " role="form" style="width:200px;float: left;padding: 75px;" ng-submit="sendRequest(user)">
+			<div class="form-group">
+			    <label class="" for="ans">Answer:</label>
+				<input type="text" id="ans" class="form-control"
+					placeholder="press enter after typing" ng-model="user.answer">
+			</div>
+		</form></div>
+		 
+	</div>
 </div>
