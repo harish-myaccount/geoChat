@@ -13,8 +13,8 @@ app.controller("ChatCtrl", ['$scope', 'ChatService', function($scope, ChatServic
 	});
 } ]);
 
-app.controller('MainCtrl', [ '$scope','$location', 'GeolocationService', 'UserService',
-		function($scope,$location, geolocation, userservice) {
+app.controller('MainCtrl', [ '$scope','$location', 'GeolocationService', 'UserService','localStorageService',
+		function($scope,$location, geolocation, userservice,localStorageService) {
 			$scope.position = null;
 			$scope.message = "";
 			$scope.users = null;
@@ -25,8 +25,13 @@ app.controller('MainCtrl', [ '$scope','$location', 'GeolocationService', 'UserSe
 				$scope.message = "Allow browser to share location to start using app"
 			});
 
-			$scope.self={};
+			$scope.self={email:''};
+			if(localStorageService.get('email')){
+				$scope.start();
+			}
+			
 			$scope.start = function() {
+				localStorageService.set('email',$scope.self.email)
 				var promise = userservice.sendLocation($scope.position,$scope.self.email);
 				promise.then(function(response) {
 					$scope.users=[];

@@ -1,4 +1,4 @@
- var app=angular.module("chatApp", [ "ngRoute"]);
+ var app=angular.module("chatApp", [ "ngRoute","LocalStorageModule"]);
   app.config(['$routeProvider',
               function($routeProvider) {
 	    $routeProvider.
