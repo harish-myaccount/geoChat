@@ -24,11 +24,7 @@ public class UserController {
 	@RequestMapping(value="/nearby",method = RequestMethod.POST )
 	@ResponseBody
 	public GeoResults<ConnectedUser> getUsers(HttpServletRequest request,@RequestBody ConnectedUser user){
-		String unique = request.getHeader("X-FORWARDED-FOR");
-		if(unique==null){
-			unique = request.getRemoteAddr();
-		}
-		user.setIpRoute(unique);
+		
 		user.setIsChatting(false);
 		user.setLocation(new Point(user.getCoOrd().get("longitude"), user.getCoOrd().get("latitude")));
 		usrsevice.saveUser(user);
@@ -36,4 +32,9 @@ public class UserController {
 	}
 	
 
+	@RequestMapping(value="/question/add",method = RequestMethod.POST )
+	@ResponseBody
+	public ConnectedUser updateUser(HttpServletRequest request,@RequestBody ConnectedUser user){
+		return usrsevice.addQuestion(user);
+	}
 }

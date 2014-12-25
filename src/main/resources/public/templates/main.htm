@@ -6,31 +6,38 @@
 	<p>{{ message }}</p>
 </div>
 
-<div ng-hide="position" class="input-group input-group-lg"
-	style="margin: auto; margin-bottom: 1em; margin-top: 10em; width: 35%;">
-	<span class="input-group-addon">nick name</span> <input width='150px'
-		type="text" class=' form-control' ng-model='nickname'
-		placeholder='nick name'></input>
-</div>
-<div ng-hide="position" class="input-group input-group-lg"
+
+<div ng-if="position" class="wrapper">
+<form ng-submit="start()" ng-show="users">	
+<div class="input-group input-group-lg"
 	style="margin: auto; width: 75%">
-	<span class="input-group-addon">Ask</span> <input type="text"
+	 <input type="text"
 		class=' form-control' ng-model='tagline'
-		placeholder='security question'></input>
+		placeholder='a security question'></input>
+		
+<button class='start' 
+		style="margin-top: 0.7em;">Start a Chat</button>
 </div>
-<div class="wrapper">
-	<button class='start' ng-click="start()" ng-hide="position"
+</form>
+<form ng-submit="start()" ng-hide="users">
+<div class="input-group input-group-lg"
+	style="margin: auto; margin-bottom: 1em; margin-top: 10em; width: 35%;">
+	<span class="input-group-addon">email</span> <input width='150px'
+		type="email" class=' form-control' ng-model='self.email' required
+		placeholder='email'></input>
+</div>
+<button class='start' 
 		style="margin-top: 2em;">Start</button>
+</form>
 </div>
-<p ng-show='users' class="text-center">Nearby Online Users</p>
+<p ng-show='users' class="text-center" style="margin-top: 8em;">Nearby Online Users</p>
 <div style="margin-left: 175px;">
 	<div class="thumbnail" ng-repeat="user in users"
 		style="width: 500px; display: table">
-		<h3>{{user.content.nickName}}</h3>
 		{{user.content.tagLine}}
 		<div style="width: 400px"><img class='' ng-src="{{ user.content.image }}"
 			style="width:200px;padding: 5px;float: left;">
-		<form class="form-inline " role="form" style="width:200px;float: left;padding: 75px;" ng-submit="sendRequest(user)">
+		<form ng-if="user.content.email!=email" class="form-inline " role="form" style="width:200px;float: left;padding: 75px;" ng-submit="sendRequest(user)">
 			<div class="form-group">
 			    <label class="" for="ans">Answer:</label>
 				<input type="text" id="ans" class="form-control"

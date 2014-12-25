@@ -16,8 +16,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class ConnectedUser implements JsonValue {
 	
 	private Boolean isChatting;
+
 	@Id
-	private String ipRoute;
+	private String email;
 	
 	@Transient
 	private Map<String,Double> coOrd;
@@ -42,11 +43,11 @@ public class ConnectedUser implements JsonValue {
 	@GeoSpatialIndexed
 	private Point location;
 	
-	public String getIpRoute() {
-		return ipRoute;
+	public String getEmail() {
+		return email;
 	}
-	public void setIpRoute(String ipRoute) {
-		this.ipRoute = ipRoute;
+	public void setEmail(String ipRoute) {
+		this.email = ipRoute;
 	}
 	public String getNickName() {
 		return nickName;

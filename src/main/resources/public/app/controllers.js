@@ -19,26 +19,32 @@ app.controller('MainCtrl', [ '$scope','$location', 'GeolocationService', 'UserSe
 			$scope.message = "";
 			$scope.users = null;
 
+			geolocation().then(function(position) {
+				$scope.position = position;
+			}, function(reason) {
+				$scope.message = "Allow browser to share location to start using app"
+			});
+
+			$scope.self={};
 			$scope.start = function() {
-				geolocation().then(function(position) {
-					$scope.position = position;
-					urls=[];
-					urls[false]='http://goo.gl/J7SKmj';
-					urls[true]='http://goo.gl/SvjslJ';
-					userservice.getPicURL($scope.nickname).then(function(hits){
-						var promise = userservice.sendLocation(position,$scope.nickname,$scope.tagline,hits.length>0?hits[0].previewURL:urls[Math.random()<.5]);
-						promise.then(function(response) {
-							$scope.users=[];
-							angular.forEach(response,function(user,i){
-								$scope.users.push(user)});
-						}, function(error) {
-							$scope.message = error
-						});
-					});
-				}, function(reason) {
-					$scope.message = "Could not be determined."
+				var promise = userservice.sendLocation($scope.position,$scope.self.email);
+				promise.then(function(response) {
+					$scope.users=[];
+					angular.forEach(response,function(user,i){
+						$scope.users.push(user)});
+				}, function(error) {
+					$scope.message = error
 				});
 			};
+			
+			$scope.postQuestion = function(){
+				urls=[];
+				urls[false]='http://goo.gl/J7SKmj';
+				urls[true]='http://goo.gl/SvjslJ';
+				userservice.postQuestion($scope.email,$scope.tagline).then(function(user){
+					$scope.users.push(user);
+				});
+			}
 			
 			$scope.sendRequest = function(user){
 				console.log(user);

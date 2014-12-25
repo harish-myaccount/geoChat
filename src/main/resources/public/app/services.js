@@ -84,20 +84,20 @@ app.service("ChatService", function($q, $timeout) {
 	}]);
   
   app.service("UserService",['$q','$http',function($q,$http){
-	  this.getPicURL = function(nick){
+	  this.postQuestion = function(question,email){
 		  var deferred = $q.defer();
-
-		  var USERNAME = 'harishmyemails0';
-		  var API_KEY = 'be2c435bd3a692ac0c49';
-		  var URL = "http://pixabay.com/api/?username="+USERNAME+"&key="+API_KEY+"&q="+encodeURIComponent(nick);
-		  $http.get(URL).success( function(data){
-		          deferred.resolve(data.hits)		          
-		  });
-		 return deferred.promise; 
-	  }
-	  this.sendLocation = function(position,nick,tag,url){
+		  user={tagline:question,email:email}
+		  $http.post('/users/question/add',user)
+	       .success(function(data) { 
+	          deferred.resolve(data.content);
+	       }).error(function(msg, code) {
+	          deferred.reject(msg);
+	          console.error(msg, code);
+	       });
+	     return deferred.promise;	  }
+	  this.sendLocation = function(position,email){
 		  var deferred = $q.defer();
-		  user = {nickName:nick,tagLine:tag,coOrd:position.coords,image:url};
+		  user = {coOrd:position.coords,email:email};
 		     $http.post('/users/nearby',user)
 		       .success(function(data) { 
 		          deferred.resolve(data.content);
