@@ -13,23 +13,28 @@ app.controller("ChatCtrl", ['$scope', 'ChatService', function($scope, ChatServic
 	});
 } ]);
 
-app.controller('MainCtrl', [ '$scope','$location', 'GeolocationService', 'UserService','localStorageService',
-		function($scope,$location, geolocation, userservice,localStorageService) {
+app.controller('MainCtrl', [ '$scope','$location', 'GeolocationService', 'UserService','localStorageService','$window',
+		function($scope,$location, geolocation, userservice,localStorageService,$window) {
 			$scope.position = null;
 			$scope.message = "";
 			$scope.users = null;
 
 			geolocation().then(function(position) {
 				$scope.position = position;
+				if(localStorageService.get('email')){
+					$scope.self.email=localStorageService.get('email');
+					$scope.start();
+				}
 			}, function(reason) {
 				$scope.message = "Allow browser to share location to start using app"
 			});
 
 			$scope.self={email:''};
-			if(localStorageService.get('email')){
-				$scope.start();
-			}
 			
+			$scope.reset=function(){
+				localStorageService.set('email','');
+				$window.location.reload();
+				}
 			$scope.start = function() {
 				localStorageService.set('email',$scope.self.email)
 				var promise = userservice.sendLocation($scope.position,$scope.self.email);
@@ -46,8 +51,10 @@ app.controller('MainCtrl', [ '$scope','$location', 'GeolocationService', 'UserSe
 				urls=[];
 				urls[false]='http://goo.gl/J7SKmj';
 				urls[true]='http://goo.gl/SvjslJ';
-				userservice.postQuestion($scope.email,$scope.tagline).then(function(user){
-					$scope.users.push(user);
+				userservice.postQuestion($scope.self.email,$scope.self.tagline).then(function(user){
+					if(!user.image)
+						user.image=urls[Math.random()<0.5];
+					$scope.users.push({content:user,self:true});
 				});
 			}
 			
@@ -56,4 +63,5 @@ app.controller('MainCtrl', [ '$scope','$location', 'GeolocationService', 'UserSe
 			    $location.path('chat');	
 			};
 
+			
 		} ]);

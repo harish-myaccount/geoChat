@@ -8,15 +8,16 @@
 
 
 <div ng-if="position" class="wrapper">
-<form ng-submit="start()" ng-show="users">	
+<form ng-submit="postQuestion()" ng-show="users">	
 <div class="input-group input-group-lg"
 	style="margin: auto; width: 75%">
 	 <input type="text"
-		class=' form-control' ng-model='tagline'
+		class=' form-control' ng-model='self.tagline'
 		placeholder='a security question'></input>
 		
-<button class='start' 
-		style="margin-top: 0.7em;">Start a Chat</button>
+<button class='start' type="submit"
+		style="margin-top: 0.7em;">Start a Chat</button> &nbsp;
+<button type="button" ng-click="reset()" style="margin-top: 0.7em;">Update Email</button>		
 </div>
 </form>
 <form ng-submit="start()" ng-hide="users">
@@ -37,7 +38,7 @@
 		{{user.content.tagLine}}
 		<div style="width: 400px"><img class='' ng-src="{{ user.content.image }}"
 			style="width:200px;padding: 5px;float: left;">
-		<form ng-if="user.content.email!=email" class="form-inline " role="form" style="width:200px;float: left;padding: 75px;" ng-submit="sendRequest(user)">
+		<form ng-if="!user.content.self" class="form-inline " role="form" style="width:200px;float: left;padding: 75px;" ng-submit="sendRequest(user)">
 			<div class="form-group">
 			    <label class="" for="ans">Answer:</label>
 				<input type="text" id="ans" class="form-control"

@@ -84,12 +84,12 @@ app.service("ChatService", function($q, $timeout) {
 	}]);
   
   app.service("UserService",['$q','$http',function($q,$http){
-	  this.postQuestion = function(question,email){
+	  this.postQuestion = function(email,question){
 		  var deferred = $q.defer();
 		  user={tagline:question,email:email}
 		  $http.post('/users/question/add',user)
 	       .success(function(data) { 
-	          deferred.resolve(data.content);
+	          deferred.resolve(data);
 	       }).error(function(msg, code) {
 	          deferred.reject(msg);
 	          console.error(msg, code);

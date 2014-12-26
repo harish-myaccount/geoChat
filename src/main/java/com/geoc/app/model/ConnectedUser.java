@@ -55,12 +55,7 @@ public class ConnectedUser implements JsonValue {
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
-	public String getTagLine() {
-		return tagLine;
-	}
-	public void setTagLine(String tagLine) {
-		this.tagLine = tagLine;
-	}
+	
 	public Boolean getIsChatting() {
 		return isChatting;
 	}
@@ -75,10 +70,16 @@ public class ConnectedUser implements JsonValue {
 	}
 	private String nickName;
 	
-	private String tagLine;
+	private String tagline;
 
 	public ValueType getValueType() {		
 		return ValueType.OBJECT;
+	}
+	public String getTagline() {
+		return tagline;
+	}
+	public void setTagline(String tagline) {
+		this.tagline = tagline;
 	}
 
 }

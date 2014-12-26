@@ -10,6 +10,6 @@ import com.geoc.app.model.ConnectedUser;
 
 public interface UserRepository extends MongoRepository<ConnectedUser, String>{
 
-public GeoResults<ConnectedUser> findByEmailNot(
+public GeoResults<ConnectedUser> findByEmailNotAndTaglineNotNull(
 		String email, @Near Point location, Distance distance); 
 }
