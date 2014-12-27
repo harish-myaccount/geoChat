@@ -1,4 +1,4 @@
-<div class="container">
+<div ng-if="authenticated" class="container">
 		<form ng-submit="addMessage()" name="messageForm">
 			<input type="text" placeholder="Compose a new message..."
 				ng-model="message" class='message'/>

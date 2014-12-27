@@ -46,8 +46,8 @@ public class ConnectedUser implements JsonValue {
 	public String getEmail() {
 		return email;
 	}
-	public void setEmail(String ipRoute) {
-		this.email = ipRoute;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getNickName() {
 		return nickName;
@@ -71,6 +71,8 @@ public class ConnectedUser implements JsonValue {
 	private String nickName;
 	
 	private String tagline;
+	
+	private String code;
 
 	public ValueType getValueType() {		
 		return ValueType.OBJECT;
@@ -80,6 +82,12 @@ public class ConnectedUser implements JsonValue {
 	}
 	public void setTagline(String tagline) {
 		this.tagline = tagline;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 }

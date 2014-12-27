@@ -1,14 +1,14 @@
- var app=angular.module("chatApp", [ "ngRoute","LocalStorageModule"]);
+ var app=angular.module("chatApp", [ "ngRoute","LocalStorageModule",'mgcrea.ngStrap',"chatApp.controllers","chatApp.services" ]);
   app.config(['$routeProvider',
               function($routeProvider) {
 	    $routeProvider.
 	      when('/', {
 	        templateUrl: 'templates/main.htm',
-	        controller: 'MainCtrl'
+	        controller: 'MainController'
 	    }).
 	      when('/chat', {
 	        templateUrl: 'templates/chat.htm',
-	        controller: 'ChatCtrl'
+	        controller: 'ChatController'
 	      }).
 	      otherwise({
 	        redirectTo: '/'

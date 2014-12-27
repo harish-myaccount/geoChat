@@ -8,43 +8,78 @@
 
 
 <div ng-if="position" class="wrapper">
-<form ng-submit="postQuestion()" ng-show="users">	
-<div class="input-group input-group-lg"
-	style="margin: auto; width: 75%">
-	 <input type="text"
-		class=' form-control' ng-model='self.tagline'
-		placeholder='a security question'></input>
-		
-<button class='start' type="submit"
-		style="margin-top: 0.7em;">Start a Chat</button> &nbsp;
-<button type="button" ng-click="reset()" style="margin-top: 0.7em;">Update Email</button>		
+	<form ng-show="users">
+		<div class="input-group input-group-lg"
+			style="margin: auto; width: 75%">
+			<input type="text" class=' form-control' ng-model='self.tagline'
+				placeholder='a security question' ></input>
+			<!-- type="submit"-->
+			<button type="button" bs-modal data-template="/popup.htm" class='start' style="margin-top: 0.7em;">Start
+				a Chat</button>
+			&nbsp;
+			<button type="button" ng-click="reset()" style="margin-top: 0.7em;">Reset
+				Email</button>
+		</div>
+	</form>
+	<form ng-submit="start()" ng-hide="users">
+		<div class="input-group input-group-lg"
+			style="margin: auto; margin-bottom: 1em; margin-top: 10em; width: 35%;">
+			<span class="input-group-addon">email</span> <input width='150px'
+				type="email" class=' form-control' ng-model='self.email' required
+				placeholder='email'></input>
+		</div>
+		<button class='start' style="margin-top: 2em;">Start</button>
+	</form>
 </div>
-</form>
-<form ng-submit="start()" ng-hide="users">
-<div class="input-group input-group-lg"
-	style="margin: auto; margin-bottom: 1em; margin-top: 10em; width: 35%;">
-	<span class="input-group-addon">email</span> <input width='150px'
-		type="email" class=' form-control' ng-model='self.email' required
-		placeholder='email'></input>
-</div>
-<button class='start' 
-		style="margin-top: 2em;">Start</button>
-</form>
-</div>
-<p ng-show='users' class="text-center" style="margin-top: 8em;">Nearby Online Users</p>
+<p ng-if='users.length>0' class="text-center" style="margin-top: 8em;">Nearby
+	Users</p>
+<p ng-if='users.length==0' class="text-center" style="margin-top: 8em;">
+	You are the first user in this locality. <br />Add a security question
+	according to your interest. <br />For eg: Who is your favourite tennis
+	star? <br />&nbsp;&nbsp;Did you watch interstellar movie? <br />&nbsp;There
+	is buy one get one offer.I need only one.Can we share Bill? <br />If
+	some one of similar interest responds.We will let yout know
+</p>
+
 <div style="margin-left: 175px;">
 	<div class="thumbnail" ng-repeat="user in users"
 		style="width: 500px; display: table">
-		{{user.content.tagLine}}
-		<div style="width: 400px"><img class='' ng-src="{{ user.content.image }}"
-			style="width:200px;padding: 5px;float: left;">
-		<form ng-if="!user.content.self" class="form-inline " role="form" style="width:200px;float: left;padding: 75px;" ng-submit="sendRequest(user)">
-			<div class="form-group">
-			    <label class="" for="ans">Answer:</label>
-				<input type="text" id="ans" class="form-control"
-					placeholder="press enter after typing" ng-model="user.answer">
-			</div>
-		</form></div>
-		 
+		<h3>{{user.content.tagline}}</h3>
+		<div style="width: 400px">
+			<img class='' ng-src="{{ user.content.image }}"
+				style="width: 200px; padding: 5px; float: left;">
+			<form ng-if="!self.opened" class="form-inline " role="form"
+				style="width: 200px; float: left; padding: 75px;"
+				ng-submit="sendRequest(user)">
+				<div class="form-group">
+					<label ng-if="user.content.email!=self.email" for="ans">Answer:</label>
+					<label ng-if="user.content.email==self.email" for="ans">Your
+						secret code :</label> <input type="text" id="ans" class="form-control"
+						placeholder="press enter after typing" ng-model="user.answer">
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
+
+<script type="text/ng-template" id="/popup.htm">
+
+<div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="$hide()">&times;</button>
+        <h4 class="modal-title">Enter secret code :</h4>
+      </div>
+      <div class="modal-body"><div >
+{{self.email}}
+<input type=text ng-model="self.secret"/>
+</div></div>
+      <div class="modal-footer">
+        <button type="submit" class="start" ng-click="$hide();postQuestion();">Save</button>
+        <button type="button" class="start" ng-click="$hide()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</script>
